@@ -1,0 +1,44 @@
+%%{init: {"theme":"base","themeVariables":{"background":"#0b1020","primaryColor":"#142033","primaryTextColor":"#eef5ff","primaryBorderColor":"#3b536c","lineColor":"#63d7e8","secondaryColor":"#1b1730","tertiaryColor":"#172419","clusterBkg":"#0f1726","clusterBorder":"#34465c","fontFamily":"Inter, ui-sans-serif, system-ui, sans-serif","fontSize":"17px"},"flowchart":{"curve":"basis","htmlLabels":true,"nodeSpacing":48,"rankSpacing":58,"padding":20}}}%%
+flowchart TB
+  subgraph intake["01 · LOCAL INTAKE & EXTRACTION"]
+    direction LR
+    video(["Gameplay recording<br/>Local MP4 / MOV"]):::input
+    cli["Python CLI<br/>Argument and path checks"]:::process
+    probe["ffprobe<br/>Track · duration · dimensions · audio"]:::process
+    ffmpeg["FFmpeg<br/>Seek · decode · scale · JPEG"]:::process
+    artifacts["Extraction outputs<br/><b>frames/</b> · timestamped images<br/><b>evidence.json</b> · source and frame index<br/><b>review.json</b> · section template"]:::artifact
+    video --> cli --> probe --> ffmpeg --> artifacts
+  end
+
+  subgraph humanReview["02 · HUMAN REVIEW"]
+    direction LR
+    analyst["Human or vision assistant<br/>Inspect frames · replay key moments · review audio"]:::human
+    completed["Completed review.json<br/>Observations · inferences<br/>Unverified questions · proposals"]:::human
+    analyst --> completed
+  end
+
+  subgraph reporting["03 · LOCAL REPORTING"]
+    direction LR
+    reportCli["Python CLI · rea-game report<br/>Read evidence.json + review.json"]:::process
+    validate{"Validate review<br/>Sections · fields · statuses<br/>Timestamp bounds · evidence rules"}:::gate
+    report(["report.md<br/>Evidence-linked analysis<br/>Prototype plan · open questions"]):::output
+    prototype(["Next step<br/>Build a playable prototype"]):::next
+    reportCli --> validate
+    validate -->|Valid| report --> prototype
+    validate -.->|Invalid · correct JSON and rerun| reportCli
+  end
+
+  intake -->|Frames + evidence| humanReview
+  humanReview -->|Completed review.json| reporting
+
+  classDef input fill:#172438,stroke:#68c9df,color:#f1f7ff,stroke-width:2px;
+  classDef process fill:#142033,stroke:#4c8ca3,color:#edf5ff,stroke-width:1.5px;
+  classDef artifact fill:#10232a,stroke:#55bfcb,color:#eafcff,stroke-width:1.5px;
+  classDef human fill:#211b38,stroke:#a58ae8,color:#f4efff,stroke-width:1.5px;
+  classDef gate fill:#292318,stroke:#efbd68,color:#fff4dc,stroke-width:2px;
+  classDef output fill:#1a291d,stroke:#b6db70,color:#f4ffe3,stroke-width:2px;
+  classDef next fill:#18232a,stroke:#75c7ac,color:#eafff5,stroke-width:1.5px;
+
+  style intake fill:#0e1927,stroke:#315367,stroke-width:1.5px,color:#a9e7f0
+  style humanReview fill:#151326,stroke:#59497d,stroke-width:1.5px,color:#d2c2ff
+  style reporting fill:#111a27,stroke:#385468,stroke-width:1.5px,color:#a9e7f0

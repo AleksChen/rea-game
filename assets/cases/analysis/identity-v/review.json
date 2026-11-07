@@ -1,0 +1,226 @@
+{
+  "overview": [
+    {
+      "text": "The recording shows a stylized, third-person multiplayer-looking game session with a lobby or mode panel, objective interaction, teammate proximity, and a later pursuit or combat sequence. The clip is not a complete match.",
+      "status": "observation",
+      "times": [
+        0.0,
+        9.0,
+        21.0,
+        36.0,
+        51.0,
+        60.0
+      ]
+    }
+  ],
+  "core_loop": [
+    {
+      "text": "A character moves through an outdoor arena, approaches an interactable device, stays nearby while a visible progress indicator advances, and later moves through an area containing hostile-looking characters and an objective marker.",
+      "status": "observation",
+      "times": [
+        9.0,
+        21.0,
+        24.0,
+        36.0,
+        45.0,
+        60.0
+      ]
+    },
+    {
+      "text": "The footage suggests an objective-and-evasion loop in which players cooperate around an interaction while avoiding an opposing threat. The clip does not establish team roles or match rules.",
+      "status": "inference",
+      "times": [
+        21.0,
+        30.0,
+        39.0,
+        54.0
+      ]
+    }
+  ],
+  "controls": [
+    {
+      "text": "A contextual interaction prompt appears near the bottom of the screen while the character is next to the device; no input or key binding is visible.",
+      "status": "observation",
+      "times": [
+        21.0,
+        24.0
+      ]
+    },
+    {
+      "text": "Movement appears player-directed, but the recording does not show the input device or control mapping.",
+      "status": "inference",
+      "times": [
+        9.0,
+        36.0
+      ]
+    },
+    {
+      "text": "The exact interaction input, attack actions, and whether the two visible characters are controlled by players or AI are not established.",
+      "status": "unverified",
+      "times": []
+    }
+  ],
+  "rules": [
+    {
+      "text": "A heart-shaped status icon is visible during the later sequence; a red meter or alert-style bar appears near the upper right during the encounter.",
+      "status": "observation",
+      "times": [
+        30.0,
+        36.0,
+        45.0
+      ]
+    },
+    {
+      "text": "The white character is shown on the ground beside a dark blue pursuer in the later encounter. A rocket-shaped device with a circular base is visible in the closing frames.",
+      "status": "observation",
+      "times": [
+        45.0,
+        48.0,
+        60.0
+      ]
+    },
+    {
+      "text": "The visuals suggest a downed-player and capture or rescue state, but the clip does not show the device interaction or explain the rules.",
+      "status": "inference",
+      "times": [
+        45.0,
+        48.0,
+        60.0
+      ]
+    },
+    {
+      "text": "No confirmed match-end state appears before the recording ends.",
+      "status": "observation",
+      "times": [
+        60.0
+      ]
+    }
+  ],
+  "progression": [
+    {
+      "text": "The clip opens on a mode or character selection panel, then shows an outdoor play space and later a pursuit encounter in the same general arena style.",
+      "status": "observation",
+      "times": [
+        0.0,
+        6.0,
+        30.0,
+        36.0
+      ]
+    },
+    {
+      "text": "The white character and a yellow character work near the same device before a blue pursuer enters the sequence; the recording does not establish whether these are players or scripted characters.",
+      "status": "observation",
+      "times": [
+        18.0,
+        27.0,
+        36.0
+      ]
+    },
+    {
+      "text": "A rocket-shaped device appears near the end, after the white character has been shown on the ground.",
+      "status": "observation",
+      "times": [
+        45.0,
+        60.0
+      ]
+    }
+  ],
+  "ui_feedback": [
+    {
+      "text": "A left-side list of character or team entries stays visible through much of the clip. Context prompts appear near the bottom center, and a horizontal progress display appears during the device interaction.",
+      "status": "observation",
+      "times": [
+        0.0,
+        9.0,
+        21.0,
+        24.0
+      ]
+    },
+    {
+      "text": "The nearby interaction is accompanied by a filling progress display, suggesting sustained proximity or a hold-to-complete action.",
+      "status": "inference",
+      "times": [
+        21.0,
+        24.0,
+        30.0
+      ]
+    }
+  ],
+  "art": [
+    {
+      "text": "The game uses a colorful, low-poly night-time environment with grass, stone paths, walls, tents, trees, and small stylized animal-like characters. The camera follows behind the active character.",
+      "status": "observation",
+      "times": [
+        9.0,
+        21.0,
+        36.0,
+        51.0
+      ]
+    },
+    {
+      "text": "The later area is darker and uses stronger red encounter feedback than the opening outdoor scene.",
+      "status": "observation",
+      "times": [
+        36.0,
+        45.0,
+        54.0
+      ]
+    }
+  ],
+  "audio": [
+    {
+      "text": "Audio is present in the source file, but no sound-specific claim is included because the analysis focused on the visible evidence frames.",
+      "status": "unverified",
+      "times": []
+    }
+  ],
+  "remake": [
+    {
+      "text": "Build a small third-person arena prototype with one controllable character, one objective device, a nearby interaction prompt, and a visible completion bar.",
+      "status": "proposal",
+      "times": []
+    },
+    {
+      "text": "Add a simple roaming threat and a readable alert/health state only after the objective interaction works end to end.",
+      "status": "proposal",
+      "times": []
+    },
+    {
+      "text": "Use a compact low-poly environment with one open area and one darker encounter lane; keep teammate and opponent behavior as simple scripted agents.",
+      "status": "proposal",
+      "times": []
+    },
+    {
+      "text": "A lightweight 3D engine such as Godot or Unity is suitable for a prototype; this is a recommendation, not a claim about the original technology.",
+      "status": "proposal",
+      "times": []
+    }
+  ],
+  "unknowns": [
+    {
+      "text": "What are the player roles and match objectives?",
+      "status": "unverified",
+      "times": []
+    },
+    {
+      "text": "Does the interaction require holding a button, multiple players, or uninterrupted proximity?",
+      "status": "unverified",
+      "times": []
+    },
+    {
+      "text": "What do the heart icon and upper-right red meter represent?",
+      "status": "unverified",
+      "times": []
+    },
+    {
+      "text": "Does the rocket-shaped device capture, rescue, or otherwise affect a character?",
+      "status": "unverified",
+      "times": []
+    },
+    {
+      "text": "What conditions end a round, and what happens on success or failure?",
+      "status": "unverified",
+      "times": []
+    }
+  ]
+}

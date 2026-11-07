@@ -1,0 +1,66 @@
+{
+  "source": "../../Three Kingdoms Tactics.mp4",
+  "duration_seconds": 41.7,
+  "width": 1394,
+  "height": 720,
+  "audio": true,
+  "frames": [
+    {
+      "time_seconds": 0.0,
+      "image": "frames/frame_00001.jpg"
+    },
+    {
+      "time_seconds": 3.0,
+      "image": "frames/frame_00002.jpg"
+    },
+    {
+      "time_seconds": 6.0,
+      "image": "frames/frame_00003.jpg"
+    },
+    {
+      "time_seconds": 9.0,
+      "image": "frames/frame_00004.jpg"
+    },
+    {
+      "time_seconds": 12.0,
+      "image": "frames/frame_00005.jpg"
+    },
+    {
+      "time_seconds": 15.0,
+      "image": "frames/frame_00006.jpg"
+    },
+    {
+      "time_seconds": 18.0,
+      "image": "frames/frame_00007.jpg"
+    },
+    {
+      "time_seconds": 21.0,
+      "image": "frames/frame_00008.jpg"
+    },
+    {
+      "time_seconds": 24.0,
+      "image": "frames/frame_00009.jpg"
+    },
+    {
+      "time_seconds": 27.0,
+      "image": "frames/frame_00010.jpg"
+    },
+    {
+      "time_seconds": 30.0,
+      "image": "frames/frame_00011.jpg"
+    },
+    {
+      "time_seconds": 33.0,
+      "image": "frames/frame_00012.jpg"
+    },
+    {
+      "time_seconds": 36.0,
+      "image": "frames/frame_00013.jpg"
+    },
+    {
+      "time_seconds": 39.0,
+      "image": "frames/frame_00014.jpg"
+    }
+  ],
+  "note": "Timestamps indicate the requested seek positions. Decoded frames may differ slightly."
+}

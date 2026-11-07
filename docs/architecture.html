@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080b14">
+  <title>rea-game · 系统架构</title>
+  <style>
+    :root{color-scheme:dark;--bg:#080b14;--panel:#101624;--line:#202a3b;--text:#edf4ff;--muted:#91a0b8;--cyan:#63e6ff;--violet:#a893ff;--lime:#c5ff72;--amber:#ffca73;--rose:#ff7f9f}
+    *{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 52% -18%,#26305b 0,transparent 44%),radial-gradient(ellipse at 95% 55%,#112c36 0,transparent 25%),var(--bg);color:var(--text);font:15px/1.45 Inter,"SF Pro Display",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh}
+    .shell{max-width:1680px;margin:auto;padding:34px clamp(18px,4vw,64px) 46px}.top{display:flex;justify-content:space-between;align-items:flex-start;gap:24px}.eyebrow{color:var(--cyan);font:600 11px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.22em;text-transform:uppercase}.title{font-size:clamp(32px,5vw,58px);letter-spacing:-.055em;line-height:1;margin:14px 0 12px}.title span{color:var(--cyan)}.sub{color:#a8b5ca;max-width:760px;margin:0;font-size:16px}.version{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;padding-top:2px}.pill{border:1px solid #28354a;background:#101827;border-radius:999px;padding:7px 11px;color:#b8c5d8;font:11px ui-monospace,monospace}.pill b{color:var(--lime);font-weight:500}
+    .toolbar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:28px 0 13px}.toolbar small{color:var(--muted);font:11px ui-monospace,monospace;letter-spacing:.12em;text-transform:uppercase}.controls{display:flex;gap:7px}.controls button{background:#121a29;color:#a9b8ce;border:1px solid #2a3548;border-radius:8px;padding:8px 12px;font:inherit;font-size:12px;cursor:pointer;transition:.2s}.controls button:hover,.controls button.active{color:#06121a;background:var(--cyan);border-color:var(--cyan)}
+    .canvas{border:1px solid #283349;border-radius:20px;overflow:hidden;background:linear-gradient(135deg,rgba(21,29,47,.92),rgba(10,15,25,.95));box-shadow:0 28px 100px #0008,inset 0 1px #ffffff0c;position:relative}.canvas:before{content:"";position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(#a6c7ff08 1px,transparent 1px),linear-gradient(90deg,#a6c7ff08 1px,transparent 1px);background-size:34px 34px;mask-image:linear-gradient(to bottom,#0008,transparent 85%)}svg{display:block;width:100%;height:auto;min-height:530px}.zone{fill:#c3d5ff05;stroke:#ffffff12;stroke-width:1}.zone.local{fill:#68e1ff08;stroke:#63e6ff26}.zone.human{fill:#b198ff08;stroke:#a893ff29}.zone.out{fill:#c5ff7207;stroke:#c5ff7228}.zone-title{font:600 11px ui-monospace,monospace;letter-spacing:.18em;fill:#8f9db4}.zone-index{fill:#53637e}.node{fill:#131c2b;stroke:#33435b;stroke-width:1.2;rx:12}.node.hot{stroke:#43bed6aa;fill:#10212c}.node.review{stroke:#8e7bef99;fill:#1b1930}.node.report{stroke:#b8e66c99;fill:#1c241b}.node-title{font:600 14px Inter,system-ui,sans-serif;fill:#eef5ff}.node-sub{font:12px Inter,system-ui,sans-serif;fill:#97a8c0}.node-tag{font:10px ui-monospace,monospace;fill:#6be2f6;letter-spacing:.08em}.node-tag.violet{fill:#b4a2ff}.node-tag.green{fill:#c5ff72}.node-tag.amber{fill:#ffca73}.node-tag.rose{fill:#ff8fa8}.port{fill:#73e4fa}.port-v{fill:#b09fff}.port-g{fill:#c5ff72}.edge{fill:none;stroke:#5b7798;stroke-width:1.5;opacity:.7;marker-end:url(#arr)}.edge.cyan{stroke:#63e6ff;marker-end:url(#arrC)}.edge.violet{stroke:#a893ff;marker-end:url(#arrV)}.edge.green{stroke:#c5ff72;marker-end:url(#arrG)}.edge.dash{stroke-dasharray:5 6}.edge-label{font:10px ui-monospace,monospace;fill:#8496b1;paint-order:stroke;stroke:#0b111d;stroke-width:5px;stroke-linejoin:round}.pulse{fill:none;stroke-width:2.8;stroke-dasharray:2 13;stroke-linecap:round;animation:travel 2.8s linear infinite;filter:url(#glow)}.pulse.c{stroke:#63e6ff}.pulse.v{stroke:#a893ff;animation-duration:3.4s}.pulse.g{stroke:#c5ff72;animation-duration:2.2s}@keyframes travel{to{stroke-dashoffset:-60}}.halo{fill:#63e6ff;opacity:.08;filter:url(#blur)}.trace{transition:opacity .3s}.is-dim{opacity:.12!important}.is-lit{opacity:1!important}.flow{stroke-width:2}.foot{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:12px;margin-top:14px}.note{border:1px solid #253147;border-radius:12px;background:#0e1420b8;padding:14px 16px;min-height:82px}.note strong{display:block;font-size:12px;margin-bottom:5px}.note p{margin:0;color:#98a7bd;font-size:12px}.swatch{display:inline-block;width:18px;height:2px;background:var(--cyan);vertical-align:middle;margin-right:6px;box-shadow:0 0 10px currentColor}.swatch.v{background:var(--violet)}.swatch.g{background:var(--lime)}.footer{display:flex;justify-content:space-between;gap:18px;margin-top:20px;color:#78879d;font:11px ui-monospace,monospace}.footer b{color:#b2c0d5;font-weight:500}
+    @media(max-width:760px){.shell{padding:24px 14px}.top{display:block}.version{justify-content:flex-start;margin-top:17px}.toolbar{align-items:flex-start;flex-direction:column}.canvas{overflow-x:auto}svg{width:1000px;max-width:none}.foot{grid-template-columns:1fr}.footer{flex-direction:column}}
+    @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+  </style>
+</head>
+<body>
+<main class="shell">
+  <header class="top">
+    <div><div class="eyebrow">Reverse Engineer Anything · Product Architecture</div><h1 class="title">rea-game <span>/ evidence pipeline</span></h1><p class="sub">从本地游戏录像到可追溯的玩法分析：工具负责提取与校验，人负责理解画面，结构化证据最终汇入可执行的原型计划。</p></div>
+    <div class="version"><span class="pill"><b>LOCAL-FIRST</b> · 无 API</span><span class="pill">Python 3.10+</span><span class="pill">FFmpeg</span><span class="pill">MIT</span></div>
+  </header>
+  <div class="toolbar"><small>System map · end-to-end workflow</small><div class="controls" role="group" aria-label="高亮架构流程"><button class="active" data-mode="all">全链路</button><button data-mode="extract">证据提取</button><button data-mode="review">复核与报告</button></div></div>
+  <section class="canvas" aria-label="rea-game 系统架构图">
+  <svg viewBox="0 0 1500 790" role="img" aria-labelledby="svgtitle svgdesc">
+    <title id="svgtitle">rea-game 本地视频分析架构与证据工作流</title><desc id="svgdesc">本地录像经 ffprobe 读取元数据，再由 FFmpeg 提取时间戳画面。人工或视觉助手检查画面并填写 review.json。CLI 校验后生成 Markdown 报告；校验失败回到 review.json。报告可交给后续游戏原型开发。</desc>
+    <defs>
+      <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter><filter id="blur"><feGaussianBlur stdDeviation="24"/></filter>
+      <marker id="arr" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8z" fill="#5b7798"/></marker><marker id="arrC" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8z" fill="#63e6ff"/></marker><marker id="arrV" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8z" fill="#a893ff"/></marker><marker id="arrG" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8z" fill="#c5ff72"/></marker>
+    </defs>
+    <rect class="zone" x="28" y="35" width="285" height="680" rx="16"/><rect class="zone local" x="333" y="35" width="500" height="680" rx="16"/><rect class="zone human" x="853" y="35" width="310" height="680" rx="16"/><rect class="zone out" x="1183" y="35" width="288" height="680" rx="16"/>
+    <text class="zone-title" x="52" y="68"><tspan class="zone-index">01 / </tspan>INPUT &amp; OPERATOR</text><text class="zone-title" x="357" y="68"><tspan class="zone-index">02 / </tspan>LOCAL RUNTIME · rea-game CLI</text><text class="zone-title" x="877" y="68"><tspan class="zone-index">03 / </tspan>HUMAN-IN-THE-LOOP</text><text class="zone-title" x="1207" y="68"><tspan class="zone-index">04 / </tspan>DELIVERABLES</text>
+    <circle class="halo" cx="473" cy="261" r="100"/><circle class="halo" cx="713" cy="491" r="80"/>
+    <!-- flow connectors -->
+    <g class="trace extract">
+      <path class="edge cyan" d="M275 185H370"/><path class="edge cyan" d="M545 185H590"/><path class="edge cyan" d="M675 228V292"/><path class="edge cyan" d="M590 345H545"/><path class="edge cyan" d="M455 386V436"/><path class="edge violet" d="M545 490H625"/>
+      <path class="pulse c" d="M275 185H370"/><path class="pulse c" d="M545 185H590"/><path class="pulse c" d="M675 228V292"/><path class="pulse c" d="M590 345H545"/><path class="pulse c" d="M455 386V436"/>
+      <text class="edge-label" x="290" y="174">video path</text><text class="edge-label" x="555" y="174">metadata</text><text class="edge-label" x="683" y="266">track / seek</text><text class="edge-label" x="550" y="335">JPEG frames</text><text class="edge-label" x="465" y="419">evidence.json</text>
+    </g>
+    <g class="trace review">
+      <path class="edge violet" d="M795 490H850V183H875"/><path class="edge violet" d="M998 229V292"/><path class="edge violet" d="M875 338H830V620H795"/><path class="edge green" d="M795 620H1170V345H1220"/><path class="edge green" d="M1300 386V446"/><path class="edge green" d="M1382 490H1412"/>
+      <path class="edge dash" d="M1220 510H1170V692H850V370H875"/>
+      <path class="pulse v" d="M795 490H850V183H875"/><path class="pulse v" d="M998 229V292"/><path class="pulse v" d="M875 338H830V620H795"/><path class="pulse g" d="M795 620H1170V345H1220"/><path class="pulse g" d="M1300 386V446"/>
+      <text class="edge-label" x="806" y="478">frames + evidence</text><text class="edge-label" x="1008" y="268">human findings</text><text class="edge-label" x="803" y="559">review.json</text><text class="edge-label" x="1002" y="608">report command input</text><text class="edge-label" x="1310" y="419">valid → render report.md</text><text class="edge-label" x="899" y="683">invalid · edit review and rerun</text>
+    </g>
+    <g class="trace review"><path class="edge green" d="M1382 490H1412"/><path class="pulse g" d="M1382 490H1412"/></g>
+    <!-- Nodes -->
+    <g><rect class="node" x="67" y="145" width="208" height="80"/><text class="node-tag amber" x="86" y="169">SOURCE / MP4 · MOV</text><text class="node-title" x="86" y="194">本地游戏录像</text><text class="node-sub" x="86" y="212">输入 · source video</text></g>
+    <g><rect class="node" x="370" y="145" width="175" height="80"/><text class="node-tag" x="389" y="169">COMMAND 01</text><text class="node-title" x="389" y="194">extract</text><text class="node-sub" x="389" y="212">CLI 参数 / 路径校验</text></g>
+    <g><rect class="node hot" x="590" y="145" width="170" height="83"/><text class="node-tag" x="609" y="169">MEDIA PROBE</text><text class="node-title" x="609" y="194">ffprobe</text><text class="node-sub" x="609" y="213">轨道 · 时长 · 尺寸 · 音频</text></g>
+    <g><rect class="node hot" x="590" y="292" width="170" height="83"/><text class="node-tag" x="609" y="316">FRAME ENGINE</text><text class="node-title" x="609" y="341">FFmpeg</text><text class="node-sub" x="609" y="360">逐时间点 seek · JPEG</text></g>
+    <g><rect class="node hot" x="370" y="292" width="175" height="94"/><text class="node-tag" x="389" y="316">ARTIFACTS / OUTPUT</text><text class="node-title" x="389" y="342">frames/</text><text class="node-sub" x="389" y="361">压缩画面 · 序号索引</text><text class="node-sub" x="389" y="378">默认最长边 ≤ 960 px</text></g>
+    <g><rect class="node hot" x="370" y="436" width="175" height="108"/><text class="node-tag" x="389" y="460">TIMESTAMPED EVIDENCE</text><text class="node-title" x="389" y="486">evidence.json</text><text class="node-sub" x="389" y="506">source · duration · frames</text><text class="node-sub" x="389" y="525">请求 seek 时间戳 · 音频标记</text></g>
+    <g><rect class="node review" x="625" y="448" width="170" height="84"/><text class="node-tag violet" x="644" y="472">REVIEW TEMPLATE</text><text class="node-title" x="644" y="497">review.json</text><text class="node-sub" x="644" y="516">10 个固定分析章节</text></g>
+    <g><rect class="node review" x="875" y="135" width="247" height="94"/><text class="node-tag violet" x="895" y="160">ANALYSIS ACTOR</text><text class="node-title" x="895" y="186">人工 / 视觉助手</text><text class="node-sub" x="895" y="207">检查帧、回看原片、听取音频</text></g>
+    <g><rect class="node review" x="875" y="292" width="247" height="94"/><text class="node-tag violet" x="895" y="317">STRUCTURED REVIEW</text><text class="node-title" x="895" y="343">填写 review.json</text><text class="node-sub" x="895" y="364">观察 · 推断 · 未验证 · 提案</text></g>
+    <g><rect class="node hot" x="590" y="580" width="205" height="80"/><text class="node-tag" x="609" y="604">COMMAND 02 · report</text><text class="node-title" x="609" y="629">validate + render</text><text class="node-sub" x="609" y="648">Python 标准库 · 确定性校验</text></g>
+    <g><rect class="node report" x="1220" y="292" width="162" height="94"/><text class="node-tag green" x="1238" y="317">GUARDRAILS</text><text class="node-title" x="1238" y="343">校验门</text><text class="node-sub" x="1238" y="364">结构 · 状态 · 时间戳范围</text></g>
+    <g><rect class="node report" x="1220" y="448" width="162" height="84"/><text class="node-tag green" x="1238" y="472">PUBLISH</text><text class="node-title" x="1238" y="497">report.md</text><text class="node-sub" x="1238" y="516">证据标注的分析报告</text></g>
+    <g><rect class="node report" x="1412" y="448" width="48" height="84"/><text class="node-tag green" x="1425" y="475">NEXT</text><text class="node-title" x="1421" y="500" style="font-size:12px">原型</text><text class="node-sub" x="1419" y="518" style="font-size:10px">Unity…</text></g>
+    <!-- Side annotations -->
+    <g><path d="M67 273H275" stroke="#ffca7344" stroke-dasharray="3 5"/><text class="node-tag amber" x="67" y="294">PRIVACY BOUNDARY</text><text class="node-sub" x="67" y="315">CLI 不调用模型或网络</text><text class="node-sub" x="67" y="334">云端助手是否上传素材</text><text class="node-sub" x="67" y="353">由助手自身工作流决定</text></g>
+    <g><path d="M67 420H275" stroke="#ffffff20" stroke-dasharray="3 5"/><text class="node-tag" x="67" y="442">FAIL-SAFE</text><text class="node-sub" x="67" y="463">extract 需新建输出目录</text><text class="node-sub" x="67" y="482">失败时清理由本次创建的目录</text><text class="node-sub" x="67" y="501">避免破坏已有 review</text></g>
+    <g><path d="M67 560H275" stroke="#ffffff20" stroke-dasharray="3 5"/><text class="node-tag rose" x="67" y="582">EVIDENCE RULE</text><text class="node-sub" x="67" y="603">观察 / 推断必须带时间戳</text><text class="node-sub" x="67" y="622">不确定机制保持显式开放</text></g>
+    <g><path d="M895 590H1122" stroke="#a893ff40" stroke-dasharray="3 5"/><text class="node-tag violet" x="895" y="613">REVIEW DOMAINS</text><text class="node-sub" x="895" y="634">核心循环 · 操作 · 规则 · 进度 · UI · 美术 · 音频</text><text class="node-sub" x="895" y="653">原型计划 · 开放问题</text></g>
+    <g><path d="M1220 588H1460" stroke="#c5ff7240" stroke-dasharray="3 5"/><text class="node-tag green" x="1220" y="613">REPORT SECTIONS</text><text class="node-sub" x="1220" y="634">玩法拆解 + 尚未审核章节标记</text><text class="node-sub" x="1220" y="653">下一步：按建议实现可玩复刻</text></g>
+    <g><rect x="349" y="633" width="468" height="49" rx="9" fill="#101a27" stroke="#24364a"/><circle class="port" cx="368" cy="657" r="4"/><text class="node-sub" x="381" y="661">运行时依赖：Python 标准库 + 系统 FFmpeg / ffprobe</text></g>
+    <g><rect x="349" y="691" width="468" height="1" fill="#ffffff08"/></g>
+  </svg>
+  </section>
+  <section class="foot" aria-label="图例与架构边界">
+    <div class="note"><strong><i class="swatch"></i>自动化处理</strong><p>CLI 编排媒体探测、抽帧、文件写入、review 校验与 Markdown 渲染；输出可重复检查的本地文件。</p></div>
+    <div class="note"><strong><i class="swatch v"></i>人工理解闭环</strong><p>玩法语义由人或视觉助手补充。观察与推断要求证据时间戳，校验错误返回编辑环节。</p></div>
+    <div class="note"><strong><i class="swatch g"></i>清晰的产品边界</strong><p>rea-game 生成分析与原型计划，不自动理解视频，也不包含游戏引擎或原型运行时。</p></div>
+  </section>
+  <footer class="footer"><span><b>REA-GAME</b> / local evidence pipeline</span><span>DESIGN BASIS · README + rea_game/cli.py + SKILL.md</span></footer>
+</main>
+<script>
+  const buttons=[...document.querySelectorAll('.controls button')];
+  const groups=[...document.querySelectorAll('.trace')];
+  buttons.forEach(button=>button.addEventListener('click',()=>{
+    buttons.forEach(item=>item.classList.toggle('active',item===button));
+    const mode=button.dataset.mode;
+    groups.forEach(group=>{const keep=mode==='all'||group.classList.contains(mode);group.classList.toggle('is-dim',!keep);group.classList.toggle('is-lit',keep)});
+  }));
+</script>
+</body>
+</html>

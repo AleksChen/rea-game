@@ -1,0 +1,41 @@
+{
+  "overview": [
+    {
+      "text": "This synthetic clip demonstrates the evidence and reporting workflow. It is not a gameplay recording.",
+      "status": "observation",
+      "times": [
+        0
+      ]
+    }
+  ],
+  "core_loop": [],
+  "controls": [],
+  "rules": [],
+  "progression": [],
+  "ui_feedback": [],
+  "art": [
+    {
+      "text": "A white square appears on a black background. Between 0 and 1 seconds, it moves from the left toward the center.",
+      "status": "observation",
+      "times": [
+        0,
+        1
+      ]
+    }
+  ],
+  "audio": [],
+  "remake": [
+    {
+      "text": "Draw a white square on a black canvas and change its position at the one-second mark to reproduce the visible behavior.",
+      "status": "proposal",
+      "times": []
+    }
+  ],
+  "unknowns": [
+    {
+      "text": "The footage does not establish whether player input, collisions, scoring, or win and loss conditions are involved.",
+      "status": "unverified",
+      "times": []
+    }
+  ]
+}
