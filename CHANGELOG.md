@@ -1,8 +1,8 @@
 # Changelog
 
-Notable changes are recorded here. The initial release is still in preparation.
+Notable changes in each release are recorded here.
 
-## Unreleased
+## 0.1.0 - 2026-11-08
 
 - Use English throughout the CLI, report templates, review workflow, documentation, and examples.
 - Standardize review statuses as `observation`, `inference`, `unverified`, and `proposal`.
